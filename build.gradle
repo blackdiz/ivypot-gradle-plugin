@@ -14,57 +14,69 @@
 
 // PLEASE NOTE: Integration Tests and Gradle Compatibility tests download a number of files.
 
-buildscript {
-    repositories {
-        jcenter()
-        mavenLocal()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.9.0"
-        classpath 'org.ysb33r.gradle:gradletest:0.5.5'
-        classpath 'gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1'
-    }
+plugins {
+    id 'com.gradle.build-scan' version '1.8'
+    id 'groovy'
+    id 'maven'
+    id 'org.ysb33r.bintray' version '1.5'
+    id 'com.gradle.plugin-publish' version '0.9.7'
+    id 'com.github.hierynomus.license' version '0.13.1'
+    id 'org.ysb33r.cloudci' version '1.0'
+    id 'org.ysb33r.gradletest' version '1.0-beta11'
 }
 
-apply plugin : 'groovy'
-apply plugin : 'maven'
-apply plugin : 'com.gradle.plugin-publish'
-apply plugin : 'com.github.hierynomus.license'
-apply plugin : 'org.ysb33r.gradletest'
+//buildscript {
+//    repositories {
+//        jcenter()
+//        mavenLocal()
+//        maven {
+//            url "https://plugins.gradle.org/m2/"
+//        }
+//    }
+//    dependencies {
+//        classpath "com.gradle.publish:plugin-publish-plugin:0.9.0"
+//        classpath 'org.ysb33r.gradle:gradletest:0.5.5'
+//        classpath 'gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1'
+//    }
+//}
+
+//apply plugin : 'groovy'
+//apply plugin : 'maven'
+//apply plugin : 'com.gradle.plugin-publish'
+//apply plugin : 'com.github.hierynomus.license'
+//apply plugin : 'org.ysb33r.gradletest'
 
 apply from: 'gradle/integration-tests.gradle'
 
-version = '0.4'
+version = '0.5-SNAPSHOT'
 group = 'org.ysb33r.gradle'
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 
-plugins.withType(JavaPlugin) {
-
-    project.tasks.withType(JavaCompile) { task ->
-        task.sourceCompatibility = project.sourceCompatibility
-        task.targetCompatibility = project.targetCompatibility
-    }
-
-    project.tasks.withType(GroovyCompile) { task ->
-        task.sourceCompatibility = project.sourceCompatibility
-        task.targetCompatibility = project.targetCompatibility
-    }
-}
+//plugins.withType(JavaPlugin) {
+//
+//    project.tasks.withType(JavaCompile) { task ->
+//        task.sourceCompatibility = project.sourceCompatibility
+//        task.targetCompatibility = project.targetCompatibility
+//    }
+//
+//    project.tasks.withType(GroovyCompile) { task ->
+//        task.sourceCompatibility = project.sourceCompatibility
+//        task.targetCompatibility = project.targetCompatibility
+//    }
+//}
 
 repositories {
     jcenter()
 }
 
 dependencies {
+//    compile 'org.apache.commons:commons-lang3:3.5'
     compile gradleApi()
     compile localGroovy()
 
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.3', {
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4', {
         exclude module : 'groovy-all'
     }
     testCompile( 'com.athaydes:spock-reports:1.2.10' ) {
@@ -118,18 +130,11 @@ publishPlugins {
     onlyIf { !version.endsWith("SNAPSHOT") }
 }
 
-gradleLocations {
-    downloadToGradleUserHome = true
-}
-
 gradleTest {
-    versions '2.0'
-    versions '2.2'
-    versions '2.3'
-    versions '2.4'
-    versions '2.8'
-    versions '2.10'
-    versions '2.12', '2.13-rc-1'
+    versions '2.0', '2.2', '2.5', '2.8', '2.10'
+    versions '2.12', '2.13', '2.14.1'
+    versions '3.0', '3.5'
+    versions '4.0'
 
     inputs.files jar
     inputs.dir file('gradleTest')
