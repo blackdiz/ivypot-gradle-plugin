@@ -14,13 +14,11 @@
 
 package org.ysb33r.gradle.ivypot.internal
 
+import org.gradle.api.GradleException
 import org.gradle.api.artifacts.repositories.FlatDirectoryArtifactRepository
 import org.gradle.api.artifacts.repositories.IvyArtifactRepository
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 
-/**
- * @author Schalk W. Cronjé
- */
 class BaseRepositoryFactory implements org.gradle.api.internal.artifacts.BaseRepositoryFactory {
     @Override
     MavenArtifactRepository createJCenterRepository() {
@@ -51,5 +49,4 @@ class BaseRepositoryFactory implements org.gradle.api.internal.artifacts.BaseRep
     FlatDirectoryArtifactRepository createFlatDirRepository() {
         return null
     }
-
 }

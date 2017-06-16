@@ -15,6 +15,8 @@
 package org.ysb33r.gradle.ivypot.internal
 
 import groovy.transform.CompileDynamic
+import org.gradle.api.Action
+import org.gradle.api.artifacts.repositories.AuthenticationContainer
 import org.gradle.api.artifacts.repositories.PasswordCredentials
 
 /**
@@ -84,6 +86,26 @@ trait RepositoryTraits {
         def cfg = closure.clone()
         cfg.delegate = this.credentials
         cfg()
+    }
+
+    def getCredentials(Class aClass) {
+        throw new IllegalArgumentException('getCredentials(Class aClass) is not yet supported. Pleas eraise an issue at https://github.com/ysb33r/ivypot-gradle-plugin.')
+    }
+
+    void credentials(Action<? super PasswordCredentials> action) {
+        action(credentials)
+    }
+
+    def <T extends org.gradle.api.credentials.Credentials> void credentials(Class<T> aClass, Action<? super T> action) {
+        throw new IllegalArgumentException('credentials(Class<T> aClass, Action<? super T> action) is not yet supported. Pleas eraise an issue at https://github.com/ysb33r/ivypot-gradle-plugin.')
+    }
+
+    void authentication(Action<? super AuthenticationContainer> action) {
+        throw new IllegalArgumentException('authentication(Action<? super AuthenticationContainer> action) is not yet supported. Pleas eraise an issue at https://github.com/ysb33r/ivypot-gradle-plugin.')
+    }
+
+    AuthenticationContainer getAuthentication() {
+        throw new IllegalArgumentException('getAuthentication( is not yet supported. Pleas eraise an issue at https://github.com/ysb33r/ivypot-gradle-plugin.')
     }
 
     /**

@@ -15,8 +15,12 @@
 package org.ysb33r.gradle.ivypot.internal
 
 import groovy.transform.TypeChecked
+import org.gradle.api.Action
+import org.gradle.api.artifacts.repositories.AuthenticationContainer
 import org.gradle.api.artifacts.repositories.IvyArtifactRepository
 import org.gradle.api.artifacts.repositories.IvyArtifactRepositoryMetaDataProvider
+import org.gradle.api.artifacts.repositories.PasswordCredentials
+import org.gradle.api.artifacts.repositories.RepositoryLayout
 import org.ysb33r.gradle.ivypot.IvyXml
 
 /**
@@ -184,6 +188,12 @@ class IvyRepository implements IvyArtifactRepository, IvyXml, RepositoryTraits {
             ret += "<artifact pattern='${it.pattern}'/>"
         }
         ret += '</url>'
+    }
+
+    @Override
+    void layout(String s, Action<? extends RepositoryLayout> action) {
+        layout(s)
+        action(repositoryLayout)
     }
 
     private def repositoryLayout
